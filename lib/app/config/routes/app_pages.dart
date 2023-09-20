@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
+import 'package:pelato_markazi/app/features/home/binding/home_binding.dart';
 import 'package:pelato_markazi/app/features/home/screen/main_screen.dart';
+import 'package:pelato_markazi/app/features/order/binding/order_binding.dart';
+import 'package:pelato_markazi/app/features/order/screen/order_view_screen.dart';
 import 'package:pelato_markazi/app/features/salon/binding/salon_binding.dart';
 import 'package:pelato_markazi/app/features/salon/screen/checkout_screen.dart';
 import 'package:pelato_markazi/app/features/salon/screen/single_salon_screen.dart';
@@ -20,6 +23,7 @@ class AppPages {
     GetPage(
       name: Routes.homeScreen,
       page: () => const MainScreen(),
+      binding: HomeBinding()
     ),
     GetPage(
       name: Routes.introScreen,
@@ -33,6 +37,7 @@ class AppPages {
     GetPage(
       name: Routes.signupScreen,
       page: () => const SignUpScreen(),
+      binding: UserBinding(),
     ),
     GetPage(
       name: Routes.singleSalonScreen,
@@ -43,6 +48,11 @@ class AppPages {
       name: Routes.checkoutScreen,
       page: () => const CheckoutScreen(),
       binding: SalonBinding(),
+    ),
+    GetPage(
+      name: Routes.orderViewScreen,
+      page: () => const OrderViewScreen(),
+      binding: OrderBinding(),
     ),
   ];
 }

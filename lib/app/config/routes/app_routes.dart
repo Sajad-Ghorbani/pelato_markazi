@@ -8,4 +8,5 @@ abstract base class Routes{
   static const String signupScreen = '/signup';
   static const String singleSalonScreen = '/singleSalon';
   static const String checkoutScreen = '/checkout';
+  static const String orderViewScreen = '/orderView';
 }
