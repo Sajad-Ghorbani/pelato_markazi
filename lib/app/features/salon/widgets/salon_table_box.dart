@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pelato_markazi/app/config/theme/app_colors.dart';
 
 class SalonTableBox extends StatelessWidget {
   const SalonTableBox({
@@ -6,11 +7,13 @@ class SalonTableBox extends StatelessWidget {
     this.onTap,
     this.child,
     this.status = '-1',
+    this.isHeader = false,
   });
 
   final VoidCallback? onTap;
   final Widget? child;
   final String status;
+  final bool isHeader;
 
   Color setColor(Color color) {
     return status == 'outdated'
@@ -37,7 +40,9 @@ class SalonTableBox extends StatelessWidget {
             color: setColor(Theme.of(context).colorScheme.outline),
           ),
         ),
-        color: setColor(Colors.white),
+        color: isHeader
+            ? AppColors.greenColor.withOpacity(0.3)
+            : setColor(Colors.white),
         child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           onTap: onTap,
