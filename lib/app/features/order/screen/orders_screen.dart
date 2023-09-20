@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pelato_markazi/app/config/routes/app_pages.dart';
 import 'package:pelato_markazi/app/config/theme/app_colors.dart';
 import 'package:pelato_markazi/app/core/widgets/base_widget.dart';
 import 'package:pelato_markazi/app/features/order/controller/order_controller.dart';
@@ -37,7 +38,9 @@ class _OrdersScreenState extends State<OrdersScreen> {
                       child: InkWell(
                         borderRadius:
                             const BorderRadius.all(Radius.circular(15)),
-                        onTap: () {},
+                        onTap: () {
+                          Get.toNamed(Routes.orderViewScreen, arguments: order);
+                        },
                         child: Padding(
                           padding: const EdgeInsets.all(10),
                           child: Column(
@@ -79,11 +82,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                             ),
                                             const Spacer(),
                                             Text(
-                                              order.status == 'pending'
-                                                  ? 'در حال بررسی'
-                                                  : order.status == 'completed'
-                                                      ? 'رزرو شده'
-                                                      : 'لغو شده',
+                                              controller.getOrderStatus(order.status!),
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodyLarge!
@@ -137,9 +136,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                         'مدت زمان باقی مانده تا تکمیل رزرو:'),
                                     const SizedBox(width: 10),
                                     Text(
-                                      '${order.remainedTime! % 60} : '
-                                          '${'${order.remainedTime! ~/ 60}'
-                                          .toPersianDigit()}',
+                                      '${'${order.remainedTime! % 60} : '.toPersianDigit()}${'${order.remainedTime! ~/ 60}'.toPersianDigit()}',
                                       style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
