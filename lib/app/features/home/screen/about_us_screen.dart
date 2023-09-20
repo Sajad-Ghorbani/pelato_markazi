@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:latlong2/latlong.dart';
 import 'package:pelato_markazi/app/core/widgets/base_widget.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
@@ -34,13 +35,43 @@ class AboutUsScreen extends StatelessWidget {
               thickness: 1.5,
             ),
             const SizedBox(height: 10),
-            const Text('آدرس اینستاگرام پلاتو: Pelato.markazi'),
+            const Row(
+              children: [
+                Icon(
+                  Iconsax.instagram,
+                  color: Colors.purple,
+                ),
+                SizedBox(width: 5),
+                Text('آدرس اینستاگرام پلاتو: Pelato.markazi'),
+              ],
+            ),
             const SizedBox(height: 5),
-            Text('تلفن تماس و واتساپ: 09024349208'.toPersianDigit()),
+            Row(
+              children: [
+                const Icon(
+                  Iconsax.mobile,
+                  color: Colors.green,
+                ),
+                const SizedBox(width: 5),
+                Text('تلفن تماس و واتساپ: 09024349208'.toPersianDigit()),
+              ],
+            ),
             const SizedBox(height: 5),
-            Text(
-              'نشانی: تهران ضلع جنوب غربی میدان انقلاب جنب سینما مرکزی پلاک ۷۲ زنگ ۱'
-                  .toPersianDigit(),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Icon(
+                  Iconsax.location,
+                  color: Colors.red,
+                ),
+                const SizedBox(width: 5),
+                Expanded(
+                  child: Text(
+                    'نشانی: تهران ضلع جنوب غربی میدان انقلاب جنب سینما مرکزی پلاک ۷۲ زنگ ۱'
+                        .toPersianDigit(),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: 10),
             SizedBox(
@@ -63,9 +94,9 @@ class AboutUsScreen extends StatelessWidget {
                         point: const LatLng(35.700766, 51.390258),
                         builder: (context) {
                           return Transform.scale(
-                            scaleY: 2.5,
-                            scaleX: 1.5,
-                            child: Image.asset('assets/images/pin.png',
+                            scale: 1.5,
+                            child: Image.asset(
+                              'assets/images/pin.png',
                             ),
                           );
                         },
