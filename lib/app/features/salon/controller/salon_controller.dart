@@ -127,14 +127,18 @@ class SalonController extends GetxController {
   }
 
   startTimer() {
-    timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-      if (startTime > 0) {
-        startTime--;
-        update();
-      } //
-      else {
-        timer.cancel();
-      }
-    });
+    if (timer?.isActive ?? false) {
+    } //
+    else {
+      timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (startTime > 0) {
+          startTime--;
+          update();
+        } //
+        else {
+          timer.cancel();
+        }
+      });
+    }
   }
 }
