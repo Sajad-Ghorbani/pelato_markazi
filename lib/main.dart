@@ -5,7 +5,6 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:pelato_markazi/app/config/routes/app_pages.dart';
 import 'package:pelato_markazi/app/config/theme/app_theme.dart';
-import 'package:pelato_markazi/app/features/splash/binding/splash_binding.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -24,7 +23,6 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'پلاتو مرکزی',
       debugShowCheckedModeBanner: false,
-      initialBinding: SplashBinding(),
       initialRoute: Routes.initial,
       getPages: AppPages.pages,
       locale: const Locale('fa', 'IR'),
