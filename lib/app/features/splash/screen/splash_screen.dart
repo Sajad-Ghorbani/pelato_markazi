@@ -7,6 +7,7 @@ class SplashScreen extends GetView<SplashController> {
 
   @override
   Widget build(BuildContext context) {
+    Get.put<SplashController>(SplashController(context));
     double width = MediaQuery.sizeOf(context).width;
     return Scaffold(
       backgroundColor: const Color(0xff093a38),
@@ -32,23 +33,46 @@ class SplashScreen extends GetView<SplashController> {
                           ),
                     ),
                     const SizedBox(height: 20),
-                    SizedBox(
-                      // height: 25,
-                      width: width * 0.7,
-                      child: Directionality(
-                        textDirection: TextDirection.ltr,
-                        child: GetBuilder<SplashController>(
-                          builder: (controller) {
-                            return LinearProgressIndicator(
-                              color: const Color(0xfffdce66),
-                              backgroundColor: Colors.white,
-                              minHeight: 3,
-                              value: controller.animation,
-                            );
-                          },
-                        ),
-                      ),
-                    )
+                    GetBuilder<SplashController>(
+                      builder: (controller) {
+                        if (controller.isConnected) {
+                          return SizedBox(
+                            width: width * 0.7,
+                            child: Directionality(
+                              textDirection: TextDirection.ltr,
+                              child: LinearProgressIndicator(
+                                color: const Color(0xfffdce66),
+                                backgroundColor: Colors.white,
+                                minHeight: 3,
+                                value: controller.animation,
+                              ),
+                            ),
+                          );
+                        } //
+                        else {
+                          return InkWell(
+                            onTap: () {
+                              controller.initConnectivity();
+                            },
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(10)),
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius:
+                                    const BorderRadius.all(Radius.circular(10)),
+                                color: Theme.of(context).colorScheme.error,
+                              ),
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 5, horizontal: 8),
+                              child: const Text(
+                                'دوباره تلاش کن',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                            ),
+                          );
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),

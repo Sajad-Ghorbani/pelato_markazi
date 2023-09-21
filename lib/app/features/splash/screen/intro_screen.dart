@@ -72,7 +72,11 @@ class IntroScreen extends StatelessWidget {
               child: InkWell(
                 borderRadius: const BorderRadius.all(Radius.circular(12)),
                 onTap: () {
-                  Get.find<SplashController>().navigateToLoginScreen();
+                  var controller =
+                      Get.put<SplashController>(SplashController(context));
+                  Future.delayed(Duration.zero, () {
+                    controller.navigateToLoginScreen();
+                  });
                 },
                 child: Padding(
                   padding:
