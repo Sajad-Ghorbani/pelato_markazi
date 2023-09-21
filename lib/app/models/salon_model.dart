@@ -187,6 +187,11 @@ List<SalonModel> salons = [
         status: 'full',
       ),
       ReserveModel(
+        day: DateTime.now().add(const Duration(days: 1)),
+        times: '10-11',
+        status: 'reserved',
+      ),
+      ReserveModel(
         day: DateTime.now().add(const Duration(days: 6)),
         times: '14-15',
         status: 'full',
@@ -195,11 +200,6 @@ List<SalonModel> salons = [
         day: DateTime.now().add(const Duration(days: 6)),
         times: '15-16',
         status: 'full',
-      ),
-      ReserveModel(
-        day: DateTime.now().add(const Duration(days: 1)),
-        times: '10-11',
-        status: 'reserved',
       ),
       ReserveModel(
         day: DateTime.now().add(const Duration(days: 1)),
