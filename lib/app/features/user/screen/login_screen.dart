@@ -2,10 +2,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:pelato_markazi/app/config/routes/app_pages.dart';
 import 'package:pelato_markazi/app/core/widgets/custom_text_field.dart';
+import 'package:pelato_markazi/app/features/user/controller/user_controller.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends GetView<UserController> {
   const LoginScreen({super.key});
 
   @override
@@ -37,7 +37,7 @@ class LoginScreen extends StatelessWidget {
                     ),
                     recognizer: TapGestureRecognizer()
                       ..onTap = () {
-                        //TODO: go to whats app and send message
+                        controller.sendMessageWhatsApp(context);
                       },
                   ),
                   const TextSpan(
@@ -47,16 +47,16 @@ class LoginScreen extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 30),
-            const CustomTextField(
-              labelIcon: Icon(Iconsax.edit_2),
+            CustomTextField(
+              controller: controller.confirmCodeController,
+              labelIcon: const Icon(Iconsax.edit_2),
               labelText: 'کد فعالسازی رو وارد کن',
             ),
             const SizedBox(height: 30),
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  //TODO: check code with server and if correct then navigate to signup
-                  Get.offNamed(Routes.signupScreen);
+                  controller.checkConfirmCode();
                 },
                 child: const Text('تایید'),
               ),

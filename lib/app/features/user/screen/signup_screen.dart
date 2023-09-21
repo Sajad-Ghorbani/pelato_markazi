@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pelato_markazi/app/config/routes/app_pages.dart';
 import 'package:pelato_markazi/app/core/widgets/custom_text_field.dart';
+import 'package:pelato_markazi/app/features/user/controller/user_controller.dart';
 
-class SignUpScreen extends StatelessWidget {
+class SignUpScreen extends GetView<UserController> {
   const SignUpScreen({super.key});
 
   @override
@@ -23,31 +23,36 @@ class SignUpScreen extends StatelessWidget {
                     ),
               ),
               const SizedBox(height: 30),
-              const CustomTextField(
-                labelIcon: Text(
+              CustomTextField(
+                controller: controller.nameController,
+                labelIcon: const Text(
                   '*',
                   style: TextStyle(fontSize: 18, color: Colors.red),
                 ),
                 labelText: 'اسمتو اینجا وارد کن',
               ),
               const SizedBox(height: 30),
-              const CustomTextField(
-                labelIcon: Text(
+              CustomTextField(
+                controller: controller.fNameController,
+                labelIcon: const Text(
                   '*',
                   style: TextStyle(fontSize: 18, color: Colors.red),
                 ),
                 labelText: 'فامیلتم اینجا وارد کن',
               ),
               const SizedBox(height: 30),
-              const CustomTextField(
+              CustomTextField(
+                controller: controller.groupNameController,
                 labelText: 'اگه گروه داری اسمشو بنویس',
               ),
               const SizedBox(height: 30),
-              const CustomTextField(
+              CustomTextField(
+                controller: controller.emailController,
                 labelText: 'ایمیلتو اینجا وارد کن',
               ),
               const SizedBox(height: 30),
-              const CustomTextField(
+              CustomTextField(
+                controller: controller.instagramController,
                 labelText: 'آدرس پیج اینستاگرامتم اینجا وارد کن',
               ),
               const SizedBox(height: 30),
@@ -67,8 +72,7 @@ class SignUpScreen extends StatelessWidget {
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    //TODO: send data to server and go to home screen
-                    Get.offAllNamed(Routes.homeScreen);
+                    controller.signup();
                   },
                   child: const Text('تکمیل اطلاعات'),
                 ),
