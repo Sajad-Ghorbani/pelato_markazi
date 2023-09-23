@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pelato_markazi/app/features/home/widgets/salon_feature_widget.dart';
+import 'package:pelato_markazi/app/models/feature_model.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
 class HomeCardWidget extends StatelessWidget {
@@ -14,7 +15,7 @@ class HomeCardWidget extends StatelessWidget {
 
   final String title;
   final String imageAddress;
-  final List<String> features;
+  final List<FeatureModel> features;
   final VoidCallback onTap;
   final int area;
 
@@ -73,7 +74,7 @@ class HomeCardWidget extends StatelessWidget {
                           spacing: 5,
                           runSpacing: 5,
                           children: features.map((item) {
-                            return SalonFeatureWidget(title: item);
+                            return SalonFeatureWidget(title: item.description!);
                           }).toList(),
                         ),
                       ),

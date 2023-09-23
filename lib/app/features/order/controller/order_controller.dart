@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
-import 'package:pelato_markazi/app/core/utils/common_methods.dart';
 import 'package:pelato_markazi/app/models/order_model.dart';
 import 'package:pelato_markazi/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -9,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class OrderController extends GetxController {
   List<OrderModel> orders = [];
   Timer? timer;
-  List orderDateIndices = [];
   SharedPreferences pref = Get.find<Services>().pref;
 
   @override
@@ -44,14 +42,6 @@ class OrderController extends GetxController {
     timer?.cancel();
 
     super.onClose();
-  }
-
-  setOrderDatesList(OrderModel order) {
-    List<DateTime> dates = [];
-    for (var value in order.salon!.reservedTimes!) {
-      dates.add(value.day!);
-    }
-    orderDateIndices = CommonMethods.setDatesList(dates);
   }
 
   String getOrderStatus(String status) {

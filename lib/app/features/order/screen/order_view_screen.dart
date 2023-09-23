@@ -16,7 +16,6 @@ class OrderViewScreen extends GetView<OrderController> {
   Widget build(BuildContext context) {
     OrderModel order = Get.arguments;
     return GetBuilder<OrderController>(
-      initState: (state) => controller.setOrderDatesList(order),
       builder: (controller) {
         return BaseWidget(
           appBarTitle: order.salon!.name!.toPersianDigit(),
@@ -54,8 +53,8 @@ class OrderViewScreen extends GetView<OrderController> {
                   ),
                 ],
                 const SizedBox(height: 20),
-                ...List.generate(controller.orderDateIndices.length, (index) {
-                  int itemIndex = controller.orderDateIndices[index];
+                ...List.generate(order.orderDays.length, (index) {
+                  int itemIndex = order.orderDays[index];
                   return Container(
                     width: Get.width - 20,
                     margin: const EdgeInsets.symmetric(vertical: 5),
@@ -81,8 +80,8 @@ class OrderViewScreen extends GetView<OrderController> {
                           size: 18,
                         ),
                         for (var item in order.salon!.reservedTimes!) ...[
-                          if (DateFormat.yMd().format(
-                                  order.salon!.reservedTimes![itemIndex].day!) ==
+                          if (DateFormat.yMd().format(order
+                                  .salon!.reservedTimes![itemIndex].day!) ==
                               DateFormat.yMd().format(item.day!)) ...[
                             Container(
                               margin: const EdgeInsets.symmetric(horizontal: 3),
