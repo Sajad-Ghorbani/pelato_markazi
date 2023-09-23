@@ -3,16 +3,28 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:pelato_markazi/app/core/utils/common_methods.dart';
 import 'package:pelato_markazi/app/models/order_model.dart';
+import 'package:pelato_markazi/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderController extends GetxController {
   List<OrderModel> orders = [];
   Timer? timer;
   List orderDateIndices = [];
+  SharedPreferences pref = Get.find<Services>().pref;
 
   @override
   void onInit() {
     super.onInit();
     orders = orderList;
+    for (var item in orders) {
+      List<String> time =
+          pref.getStringList('time2') ?? []; // time1 ==> item.id!
+      if (time.isNotEmpty) {
+        int difference =
+            DateTime.now().difference(DateTime.parse(time[1])).inSeconds;
+        item.remainedTime = int.parse(time[0]) - difference;
+      }
+    }
     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       for (var item in orders) {
         if (item.remainedTime != null && item.remainedTime != 0) {
@@ -27,9 +39,16 @@ class OrderController extends GetxController {
     });
   }
 
+  @override
+  void onClose() {
+    timer?.cancel();
+
+    super.onClose();
+  }
+
   setOrderDatesList(OrderModel order) {
     List<DateTime> dates = [];
-    for (var value in order.salon!.reservesTime!) {
+    for (var value in order.salon!.reservedTimes!) {
       dates.add(value.day!);
     }
     orderDateIndices = CommonMethods.setDatesList(dates);

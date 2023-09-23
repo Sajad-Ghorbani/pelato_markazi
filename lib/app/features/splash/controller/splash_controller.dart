@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pelato_markazi/app/config/routes/app_pages.dart';
+import 'package:pelato_markazi/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toastification/toastification.dart';
 
@@ -15,16 +16,15 @@ class SplashController extends GetxController {
   SplashController(this.context);
 
   double animation = 0;
-  late SharedPreferences pref;
+  SharedPreferences pref = Get.find<Services>().pref;
   ConnectivityResult _connectionStatus = ConnectivityResult.none;
   final Connectivity _connectivity = Connectivity();
   bool isConnected = false;
 
   @override
-  void onInit() async {
+  void onInit() {
     initConnectivity();
     super.onInit();
-    pref = await SharedPreferences.getInstance();
   }
 
   Future<void> initConnectivity() async {

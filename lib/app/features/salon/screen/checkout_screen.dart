@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
-import 'package:pelato_markazi/app/config/routes/app_pages.dart';
 import 'package:pelato_markazi/app/core/widgets/base_widget.dart';
 import 'package:pelato_markazi/app/core/widgets/custom_text_field.dart';
 import 'package:pelato_markazi/app/features/salon/controller/salon_controller.dart';
@@ -84,7 +83,7 @@ class CheckoutScreen extends StatelessWidget {
                       .textTheme
                       .bodyMedium!
                       .copyWith(fontWeight: FontWeight.bold, fontSize: 16),
-                ), //TODO: this should be count down
+                ),
                 const SizedBox(height: 10),
                 Text(
                   '* در صورت واریز بعد از این زمان رزرو تلقی نمیشه و در صورت بوجود آمدن مشکل، مسئولیت آن با شماست.',
@@ -93,9 +92,9 @@ class CheckoutScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
-                    Get.offAllNamed(Routes.homeScreen);
+                    controller.completeReserve();
                   },
-                  child: const Text('رفتن به صفحه اصلی'),
+                  child: const Text('تکمیل رزرو'),
                 ),
               ],
             ),

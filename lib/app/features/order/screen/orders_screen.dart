@@ -99,29 +99,30 @@ class _OrdersScreenState extends State<OrdersScreen> {
                                         ),
                                       ),
                                       const SizedBox(height: 5),
-                                      Row(
-                                        children: [
-                                          Text(
-                                            '${order.days} روز'
-                                                .toPersianDigit(),
-                                            style: TextStyle(
-                                              color: order.status == 'canceled'
-                                                  ? Colors.white
-                                                  : null,
-                                            ),
-                                          ),
-                                          const SizedBox(width: 40),
-                                          Text(
-                                            '${order.hours} ساعت'
-                                                .toPersianDigit(),
-                                            style: TextStyle(
-                                              color: order.status == 'canceled'
-                                                  ? Colors.white
-                                                  : null,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                      //TODO: implement day and hour time of order
+                                      // Row(
+                                      //   children: [
+                                      //     Text(
+                                      //       '${order.days} روز'
+                                      //           .toPersianDigit(),
+                                      //       style: TextStyle(
+                                      //         color: order.status == 'canceled'
+                                      //             ? Colors.white
+                                      //             : null,
+                                      //       ),
+                                      //     ),
+                                      //     const SizedBox(width: 40),
+                                      //     Text(
+                                      //       '${order.hours} ساعت'
+                                      //           .toPersianDigit(),
+                                      //       style: TextStyle(
+                                      //         color: order.status == 'canceled'
+                                      //             ? Colors.white
+                                      //             : null,
+                                      //       ),
+                                      //     ),
+                                      //   ],
+                                      // ),
                                     ],
                                   ),
                                 ],

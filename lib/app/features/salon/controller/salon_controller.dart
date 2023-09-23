@@ -1,9 +1,13 @@
 import 'dart:async';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:pelato_markazi/app/config/routes/app_pages.dart';
 import 'package:pelato_markazi/app/core/utils/common_methods.dart';
 import 'package:pelato_markazi/app/models/salon_model.dart';
+import 'package:pelato_markazi/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SalonController extends GetxController {
   List<String> timeSlots = List.generate(14, (index) {
@@ -13,6 +17,7 @@ class SalonController extends GetxController {
   });
   DateTime now = DateTime.now();
   Timer? timer;
+  SharedPreferences pref = Get.find<Services>().pref;
   int startTime = 3599;
 
   List<List<Map<String, dynamic>>> days = [];
@@ -20,6 +25,7 @@ class SalonController extends GetxController {
   late DateTime weekStart;
 
   SalonModel salon = Get.arguments;
+  TextEditingController checkoutController = TextEditingController();
 
   int weekIndex = 0;
   List<int> daysCount = [];
@@ -30,6 +36,13 @@ class SalonController extends GetxController {
     super.onInit();
     weekStart = mostRecentWeekday(now, 6);
     setTimesOfDays();
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
+    timer?.cancel();
+    checkoutController.dispose();
   }
 
   void setTimesOfDays() {
@@ -49,14 +62,14 @@ class SalonController extends GetxController {
       }
     }
     for (int i = difference + 1; i < days.length; i++) {
-      for (var item in salon.reservesTime!) {
-        setItemOfDate(item.day!, i, item.times!, item.status!);
+      for (var item in salon.reservedTimes!) {
+        setItemOfDate(item.day!, i, item.hours!, item.status!);
       }
       for (var item in selectedDays) {
         setItemOfDate(item['day'], i, item['hour'], 'selected');
       }
     }
-    sum = selectedDays.length * salon.cost!;
+    sum = selectedDays.length * salon.rentCost!;
     update();
   }
 
@@ -95,7 +108,7 @@ class SalonController extends GetxController {
     selectedDays
         .sort((a, b) => (a['day'] as DateTime).compareTo(b['day'] as DateTime));
     calculateCountOfDays(selectedDays);
-    sum = selectedDays.length * salon.cost!;
+    sum = selectedDays.length * salon.rentCost!;
     update();
   }
 
@@ -130,7 +143,7 @@ class SalonController extends GetxController {
     if (timer?.isActive ?? false) {
     } //
     else {
-      timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      timer = Timer.periodic(const Duration(seconds: 1), (timer) async {
         if (startTime > 0) {
           startTime--;
           update();
@@ -140,5 +153,12 @@ class SalonController extends GetxController {
         }
       });
     }
+  }
+
+  void completeReserve() async {
+    // TODO: send data to server and get order id
+    String orderId = 'time1';
+    await pref.setStringList(orderId, ['$startTime', '${DateTime.now()}']);
+    Get.offAllNamed(Routes.homeScreen);
   }
 }

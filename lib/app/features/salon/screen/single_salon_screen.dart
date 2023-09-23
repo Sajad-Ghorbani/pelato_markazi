@@ -179,7 +179,8 @@ class SingleSalonScreen extends StatelessWidget {
                     ),
                     const SizedBox(width: 5),
                     Text(
-                      '${'${controller.salon.cost!}'.seRagham()} تومان'.toPersianDigit(),
+                      '${'${controller.salon.rentCost!}'.seRagham()} تومان'
+                          .toPersianDigit(),
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                             fontWeight: FontWeight.bold,
                             color: Theme.of(context).colorScheme.primary,
@@ -210,7 +211,9 @@ class SingleSalonScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
-                    Get.toNamed(Routes.checkoutScreen);
+                    if (controller.sum > 0) {
+                      Get.toNamed(Routes.checkoutScreen);
+                    }
                   },
                   child: const Text('ادامه رزرو'),
                 ),

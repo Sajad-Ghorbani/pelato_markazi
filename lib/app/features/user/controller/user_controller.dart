@@ -13,7 +13,14 @@ class UserController extends GetxController {
   TextEditingController instagramController = TextEditingController();
 
   @override
-  void onClose() {}
+  void onClose() {
+    confirmCodeController.dispose();
+    nameController.dispose();
+    fNameController.dispose();
+    groupNameController.dispose();
+    emailController.dispose();
+    instagramController.dispose();
+  }
 
   void sendMessageWhatsApp(BuildContext context) async {
     var whatsapp = "+989024349208";
@@ -43,7 +50,7 @@ class UserController extends GetxController {
 
   void checkConfirmCode() async {
     //TODO: check code with server and if correct then navigate to signup
-    Get.offNamed(Routes.signupScreen);
+    Get.toNamed(Routes.signupScreen);
   }
 
   void signup() async {

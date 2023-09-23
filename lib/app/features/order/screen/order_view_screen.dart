@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
+import 'package:pelato_markazi/app/config/routes/app_pages.dart';
 import 'package:pelato_markazi/app/config/theme/app_colors.dart';
 import 'package:pelato_markazi/app/core/widgets/base_widget.dart';
 import 'package:pelato_markazi/app/features/order/controller/order_controller.dart';
@@ -30,7 +31,7 @@ class OrderViewScreen extends GetView<OrderController> {
                       'تاریخ رزرو:',
                     ),
                     const SizedBox(width: 5),
-                    Text(order.date!.toPersianDate()),
+                    Text(order.orderDate!.toPersianDate()),
                     const Spacer(),
                     Text(
                       controller.getOrderStatus(order.status!),
@@ -70,7 +71,7 @@ class OrderViewScreen extends GetView<OrderController> {
                               borderRadius:
                                   BorderRadius.all(Radius.circular(8))),
                           child: Text(
-                            order.salon!.reservesTime![itemIndex].day!
+                            order.salon!.reservedTimes![itemIndex].day!
                                 .toPersianDate(),
                             style: Theme.of(context).textTheme.bodyMedium,
                           ),
@@ -79,9 +80,9 @@ class OrderViewScreen extends GetView<OrderController> {
                           Iconsax.arrow_left_2,
                           size: 18,
                         ),
-                        for (var item in order.salon!.reservesTime!) ...[
+                        for (var item in order.salon!.reservedTimes!) ...[
                           if (DateFormat.yMd().format(
-                                  order.salon!.reservesTime![itemIndex].day!) ==
+                                  order.salon!.reservedTimes![itemIndex].day!) ==
                               DateFormat.yMd().format(item.day!)) ...[
                             Container(
                               margin: const EdgeInsets.symmetric(horizontal: 3),
@@ -92,7 +93,7 @@ class OrderViewScreen extends GetView<OrderController> {
                               ),
                               padding: const EdgeInsets.symmetric(
                                   vertical: 3, horizontal: 20),
-                              child: Text(item.times!.toPersianDigit()),
+                              child: Text(item.hours!.toPersianDigit()),
                             ),
                           ],
                         ],
@@ -104,7 +105,13 @@ class OrderViewScreen extends GetView<OrderController> {
                   visible: order.status == 'pending',
                   child: ElevatedButton(
                     onPressed: () {
-
+                      for (var value in order.salon!.reservedTimes!) {
+                        value.status = 'selected';
+                      }
+                      Get.offNamed(
+                        Routes.singleSalonScreen,
+                        arguments: order.salon!,
+                      );
                     },
                     child: const Text('ویرایش'),
                   ),
