@@ -12,7 +12,7 @@ SalonModel _$SalonModelFromJson(Map<String, dynamic> json) => SalonModel(
       images:
           (json['images'] as List<dynamic>?)?.map((e) => e as String).toList(),
       features: (json['features'] as List<dynamic>?)
-          ?.map((e) => e as String)
+          ?.map((e) => FeatureModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       rentCost: json['rent_rentCost'] as int?,
       reservedTimes: (json['reserved_times'] as List<dynamic>?)

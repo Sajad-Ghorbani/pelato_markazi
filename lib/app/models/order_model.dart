@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+import 'package:pelato_markazi/app/models/feature_model.dart';
 import 'package:pelato_markazi/app/models/reserve_model.dart';
 import 'package:pelato_markazi/app/models/salon_model.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -27,6 +29,7 @@ class OrderModel {
   int? paymentAmount;
   @JsonKey(name: "order_date")
   DateTime? orderDate;
+  @JsonKey(name: "remained_time")
   int? remainedTime;
 
   OrderModel({
@@ -43,6 +46,29 @@ class OrderModel {
     this.remainedTime,
   });
 
+  List<int> get orderDays {
+    List<int> dateIndices = [];
+    for (int i = 0; i < salon!.reservedTimes!.length; i++) {
+      if (DateFormat.yMd().format(salon!.reservedTimes![0].day!) !=
+          DateFormat.yMd().format(salon!.reservedTimes![i].day!)) {
+        if (dateIndices.isEmpty) {
+          dateIndices.add(i);
+        } //
+        else if (dateIndices.isNotEmpty &&
+            DateFormat.yMd().format(salon!.reservedTimes![i].day!) !=
+                DateFormat.yMd().format(salon!.reservedTimes![i - 1].day!)) {
+          dateIndices.add(i);
+        } //
+      }
+    }
+    dateIndices.insert(0, 0);
+    return dateIndices;
+  }
+
+  int get orderHours {
+    return salon!.reservedTimes!.length;
+  }
+
   factory OrderModel.fromJson(Map<String, dynamic> json) =>
       _$OrderModelFromJson(json);
 
@@ -57,14 +83,27 @@ List<OrderModel> orderList = [
       rentCost: 320000,
       images: ['assets/images/salon_1.jpg'],
       features: [
-        'آکوستیک',
-        'سیستم صوتی',
-        'سیستم تهویه',
-        'اسپلیت',
-        'آینه',
-        'کف پارکت',
-        'محل تعویض لباس',
-        'جا کفشی',
+        FeatureModel(
+          description: 'سیستم صوتی',
+        ),
+        FeatureModel(
+          description: 'سیستم تهویه',
+        ),
+        FeatureModel(
+          description: 'اسپلیت',
+        ),
+        FeatureModel(
+          description: 'آینه',
+        ),
+        FeatureModel(
+          description: 'کف پارکت',
+        ),
+        FeatureModel(
+          description: 'محل تعویض لباس',
+        ),
+        FeatureModel(
+          description: 'جا کفشی',
+        ),
       ],
       reservedTimes: [
         ReserveModel(

@@ -23,6 +23,7 @@ OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       orderDate: json['order_date'] == null
           ? null
           : DateTime.parse(json['order_date'] as String),
+      remainedTime: json['remained_time'] as int?,
     );
 
 Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
@@ -37,4 +38,5 @@ Map<String, dynamic> _$OrderModelToJson(OrderModel instance) =>
       'remained_amount': instance.remainedAmount,
       'payment_amount': instance.paymentAmount,
       'order_date': instance.orderDate?.toIso8601String(),
+      'remained_time': instance.remainedTime,
     };

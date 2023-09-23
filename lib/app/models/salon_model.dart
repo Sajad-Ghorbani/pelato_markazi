@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'package:pelato_markazi/app/models/feature_model.dart';
 import 'package:pelato_markazi/app/models/reserve_model.dart';
 
 part 'salon_model.g.dart';
@@ -12,7 +13,7 @@ class SalonModel {
   @JsonKey(name: "images")
   List<String>? images;
   @JsonKey(name: "features")
-  List<String>? features;
+  List<FeatureModel>? features;
   @JsonKey(name: "rent_rentCost")
   int? rentCost;
   @JsonKey(name: "reserved_times")
@@ -30,11 +31,11 @@ class SalonModel {
     this.area,
   });
 
-  factory SalonModel.fromJson(Map<String, dynamic> json) => _$SalonModelFromJson(json);
+  factory SalonModel.fromJson(Map<String, dynamic> json) =>
+      _$SalonModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$SalonModelToJson(this);
 }
-
 
 List<SalonModel> salons = [
   SalonModel(
@@ -43,14 +44,30 @@ List<SalonModel> salons = [
     rentCost: 320000,
     images: ['assets/images/salon_1.jpg'],
     features: [
-      'آکوستیک',
-      'سیستم صوتی',
-      'سیستم تهویه',
-      'اسپلیت',
-      'آینه',
-      'کف پارکت',
-      'محل تعویض لباس',
-      'جا کفشی',
+      FeatureModel(
+        description: 'آکوستیک',
+      ),
+      FeatureModel(
+        description: 'سیستم صوتی',
+      ),
+      FeatureModel(
+        description: 'سیستم تهویه',
+      ),
+      FeatureModel(
+        description: 'اسپلیت',
+      ),
+      FeatureModel(
+        description: 'آینه',
+      ),
+      FeatureModel(
+        description: 'کف پارکت',
+      ),
+      FeatureModel(
+        description: 'محل تعویض لباس',
+      ),
+      FeatureModel(
+        description: 'جا کفشی',
+      ),
     ],
     reservedTimes: [
       ReserveModel(
@@ -111,13 +128,27 @@ List<SalonModel> salons = [
     rentCost: 270000,
     images: ['assets/images/salon_2.jpg'],
     features: [
-      'سیستم صوتی',
-      'سیستم تهویه',
-      'اسپلیت',
-      'آینه',
-      'کف پارکت',
-      'محل تعویض لباس',
-      'جا کفشی',
+      FeatureModel(
+        description: 'سیستم صوتی',
+      ),
+      FeatureModel(
+        description: 'سیستم تهویه',
+      ),
+      FeatureModel(
+        description: 'اسپلیت',
+      ),
+      FeatureModel(
+        description: 'آینه',
+      ),
+      FeatureModel(
+        description: 'کف پارکت',
+      ),
+      FeatureModel(
+        description: 'محل تعویض لباس',
+      ),
+      FeatureModel(
+        description: 'جا کفشی',
+      ),
     ],
     reservedTimes: [
       ReserveModel(
@@ -178,13 +209,27 @@ List<SalonModel> salons = [
     rentCost: 250000,
     images: ['assets/images/salon_3.jpg'],
     features: [
-      'سیستم صوتی',
-      'سیستم تهویه',
-      'اسپلیت',
-      'آینه',
-      'کف پارکت',
-      'محل تعویض لباس',
-      'جا کفشی',
+      FeatureModel(
+        description: 'سیستم صوتی',
+      ),
+      FeatureModel(
+        description: 'سیستم تهویه',
+      ),
+      FeatureModel(
+        description: 'اسپلیت',
+      ),
+      FeatureModel(
+        description: 'آینه',
+      ),
+      FeatureModel(
+        description: 'کف پارکت',
+      ),
+      FeatureModel(
+        description: 'محل تعویض لباس',
+      ),
+      FeatureModel(
+        description: 'جا کفشی',
+      ),
     ],
     reservedTimes: [
       ReserveModel(
