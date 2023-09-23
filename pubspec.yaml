@@ -28,6 +28,7 @@ dependencies:
     git: https://github.com/payam-zahedi/toastification.git
   url_launcher: ^6.1.14
   json_annotation: ^4.8.1
+  lottie: ^2.6.0
 
 dev_dependencies:
   flutter_test:
