@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:latlong2/latlong.dart';
+import 'package:lottie/lottie.dart' as lottie;
+import 'package:pelato_markazi/app/config/theme/app_colors.dart';
 import 'package:pelato_markazi/app/core/widgets/base_widget.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
@@ -17,22 +19,110 @@ class AboutUsScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('''از اینکه پلاتو مرکزی رو انتخاب کردین سپاسگزاریم
-افتخار ما همراهی با حرفه ای هاست
-
-پلاتو مرکزی ۳ تا سالن داره که از بهترین و استانداردترین سالنهای تمرین با همه امکانات مورد نیاز به حساب میان.
-
-دو سالن ۶۰ متری 
-یک سالن ۸۰ متری
-
-🔰اگر ساعتهای تمرین تون بصورت مستمر و بلند مدت باشه ، درصورت تسویه ماهانه تخفیف قابل توجهی به شما تعلق میگیره
-
-❇️برای برگزاری ورکشاپ یا فیلمبرداری در سالن ۸۰ متری که دیوار کروماکی هم داره با ما تماس بگیرید
-            '''),
+            const Text(
+              'از اینکه پلاتو مرکزی رو انتخاب کردین سپاسگزاریم افتخار ما همراهی با حرفه ای هاست',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'پلاتو مرکزی ۳ تا سالن داره که از بهترین و استانداردترین سالنهای تمرین با همه امکانات مورد نیاز به حساب میان.',
+            ),
+            const SizedBox(height: 10),
+            const Row(
+              children: [
+                Icon(
+                  Iconsax.arrow_left,
+                  size: 16,
+                ),
+                SizedBox(width: 5),
+                Text('دو سالن ۶۰ متری'),
+              ],
+            ),
+            const SizedBox(height: 5),
+            const Row(
+              children: [
+                Icon(
+                  Iconsax.arrow_left,
+                  size: 16,
+                ),
+                SizedBox(width: 5),
+                Text('یک سالن ۸۰ متری'),
+              ],
+            ),
+            const SizedBox(height: 20),
+            Container(
+              decoration: const BoxDecoration(
+                color: AppColors.lightBlueColor,
+                borderRadius: BorderRadius.all(Radius.circular(15)),
+              ),
+              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+              child: Row(
+                children: [
+                  lottie.Lottie.asset(
+                    'assets/images/offer_animation.json',
+                    width: 80,
+                  ),
+                  Expanded(
+                    child: RichText(
+                      text: TextSpan(
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        children: const [
+                          TextSpan(
+                            text: 'اگر ساعتهای تمرین تون بصورت',
+                          ),
+                          TextSpan(
+                            text: ' مستمر و بلند مدت ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'باشه، درصورت تسویه ماهانه',
+                          ),
+                          TextSpan(
+                            text: ' تخفیف قابل توجهی ',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xFFFF0000),
+                            ),
+                          ),
+                          TextSpan(
+                            text: 'به شما تعلق میگیره',
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Row(
+              children: [
+                Icon(Iconsax.camera),
+                SizedBox(width: 5),
+                Expanded(
+                  child: Text(
+                    'برای برگزاری ورکشاپ یا فیلمبرداری در سالن ۸۰ متری که دیوار کروماکی هم داره با ما تماس بگیرید',
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
             const Divider(
               indent: 60,
               endIndent: 60,
               thickness: 1.5,
+            ),
+            const SizedBox(height: 10),
+            Center(
+              child: Text(
+                'راه های ارتباطی',
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                      fontWeight: FontWeight.bold,
+                    ),
+              ),
             ),
             const SizedBox(height: 10),
             const Row(
