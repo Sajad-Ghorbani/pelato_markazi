@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:pelato_markazi/app/config/routes/app_pages.dart';
 import 'package:pelato_markazi/app/config/theme/app_theme.dart';
+import 'package:pelato_markazi/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +13,12 @@ void main() async {
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
   ]);
+  await initServices();
   runApp(const MyApp());
+}
+
+Future<void> initServices() async {
+  await Get.putAsync(() => Services().init());
 }
 
 class MyApp extends StatelessWidget {
