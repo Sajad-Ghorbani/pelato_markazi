@@ -1,16 +1,16 @@
 import 'package:get/get.dart';
-import 'package:pelato_markazi/app/features/home/binding/home_binding.dart';
-import 'package:pelato_markazi/app/features/home/screen/main_screen.dart';
-import 'package:pelato_markazi/app/features/order/binding/order_binding.dart';
-import 'package:pelato_markazi/app/features/order/screen/order_view_screen.dart';
-import 'package:pelato_markazi/app/features/salon/binding/salon_binding.dart';
-import 'package:pelato_markazi/app/features/salon/screen/checkout_screen.dart';
-import 'package:pelato_markazi/app/features/salon/screen/single_salon_screen.dart';
-import 'package:pelato_markazi/app/features/splash/screen/intro_screen.dart';
-import 'package:pelato_markazi/app/features/splash/screen/splash_screen.dart';
-import 'package:pelato_markazi/app/features/user/binding/user_binding.dart';
-import 'package:pelato_markazi/app/features/user/screen/login_screen.dart';
-import 'package:pelato_markazi/app/features/user/screen/signup_screen.dart';
+import 'package:pelato_markazi/presentation/controller/home/home_binding.dart';
+import 'package:pelato_markazi/presentation/pages/home/main_screen.dart';
+import 'package:pelato_markazi/presentation/controller/order/order_binding.dart';
+import 'package:pelato_markazi/presentation/pages/order/order_view_screen.dart';
+import 'package:pelato_markazi/presentation/controller/salon/salon_binding.dart';
+import 'package:pelato_markazi/presentation/pages/salon/checkout_screen.dart';
+import 'package:pelato_markazi/presentation/pages/salon/single_salon_screen.dart';
+import 'package:pelato_markazi/presentation/pages/splash/intro_screen.dart';
+import 'package:pelato_markazi/presentation/controller/user/user_binding.dart';
+import 'package:pelato_markazi/presentation/pages/splash/splash_screen.dart';
+import 'package:pelato_markazi/presentation/pages/user/login_screen.dart';
+import 'package:pelato_markazi/presentation/pages/user/signup_screen.dart';
 
 part './app_routes.dart';
 
