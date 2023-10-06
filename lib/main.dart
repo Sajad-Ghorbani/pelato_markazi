@@ -5,7 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:pelato_markazi/app/config/routes/app_pages.dart';
 import 'package:pelato_markazi/app/config/theme/app_theme.dart';
-import 'package:pelato_markazi/services.dart';
+import 'package:pelato_markazi/app/services/services.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
