@@ -15,73 +15,64 @@ class HomeScreen extends StatelessWidget {
       builder: (controller) {
         return BaseWidget(
           appBarTitle: 'پلاتو مرکزی',
-          child: SingleChildScrollView(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 20),
-                CarouselSlider(
-                  items: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                      child: Image.asset(
-                        'assets/images/salon_1.jpg',
-                        fit: BoxFit.cover,
-                        width: MediaQuery.sizeOf(context).width,
+          child: controller.salonList.isEmpty
+              ? const Center(
+                  child: CircularProgressIndicator(),
+                )
+              : SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const SizedBox(height: 20),
+                      CarouselSlider(
+                        items: controller.salonList.map((e) {
+                          return ClipRRect(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(20)),
+                            child: Image.asset(
+                              'assets/images/salon_1.jpg',
+                              fit: BoxFit.cover,
+                              width: MediaQuery.sizeOf(context).width,
+                            ),
+                          );
+                        }).toList(),
+                        options: CarouselOptions(
+                          height: 180,
+                          autoPlay: true,
+                          enlargeCenterPage: true,
+                        ),
                       ),
-                    ),
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                      child: Image.asset(
-                        'assets/images/salon_2.jpg',
-                        fit: BoxFit.cover,
-                        width: MediaQuery.sizeOf(context).width,
+                      const SizedBox(height: 20),
+                      const Divider(
+                        endIndent: 40,
+                        indent: 40,
+                        thickness: 2,
                       ),
-                    ),
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(Radius.circular(20)),
-                      child: Image.asset(
-                        'assets/images/salon_3.jpg',
-                        fit: BoxFit.cover,
-                        width: MediaQuery.sizeOf(context).width,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
+                        child: Text(
+                          'برای دیدن زمان های آزاد هر سالن و رزرو کردن سالن روی اون کلیک کن',
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
                       ),
-                    ),
-                  ],
-                  options: CarouselOptions(
-                    height: 180,
-                    autoPlay: true,
-                    enlargeCenterPage: true,
+                      ...controller.salonList.map((salon) {
+                        return HomeCardWidget(
+                          title: salon.name!,
+                          imageAddress: salon.images![0],
+                          features: salon.features!,
+                          onTap: () {
+                            Get.toNamed(
+                              Routes.singleSalonScreen,
+                              arguments: salon.id,
+                            );
+                          },
+                          area: salon.area!,
+                        );
+                      }).toList(),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 20),
-                const Divider(
-                  endIndent: 40,
-                  indent: 40,
-                  thickness: 2,
-                ),
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Text(
-                    'برای دیدن زمان های آزاد هر سالن و رزرو کردن سالن روی اون کلیک کن',
-                    style: Theme.of(context).textTheme.titleMedium,
-                  ),
-                ),
-                ...controller.salonList.map((salon) {
-                  return HomeCardWidget(
-                    title: salon.name!,
-                    imageAddress: salon.images![0],
-                    features: salon.features!,
-                    onTap: () {
-                      controller.getData();
-                      Get.toNamed(Routes.singleSalonScreen, arguments: salon);
-                    },
-                    area: salon.area!,
-                  );
-                }).toList(),
-              ],
-            ),
-          ),
         );
       },
     );
