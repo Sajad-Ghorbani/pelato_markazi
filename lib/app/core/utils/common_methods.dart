@@ -24,15 +24,16 @@ class CommonMethods {
     return dateIndices;
   }
 
-  static showToast(BuildContext context,String text){
+  static showToast(BuildContext context, String text,
+      {ToastificationType type = ToastificationType.error}) {
     toastification.show(
       context: context,
-      type: ToastificationType.error,
+      type: type,
       style: ToastificationStyle.flat,
       title: 'خطا',
       description: text,
       alignment: Alignment.topCenter,
-      autoCloseDuration: const Duration(seconds: 3),
+      autoCloseDuration: const Duration(seconds: 5),
       borderRadius: BorderRadius.circular(12.0),
       boxShadow: highModeShadow,
       direction: TextDirection.rtl,
