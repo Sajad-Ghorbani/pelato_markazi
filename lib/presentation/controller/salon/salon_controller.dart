@@ -28,7 +28,8 @@ class SalonController extends GetxController {
     this._getSalonUseCase,
     this._getCouponUseCase,
     this._createOrderUseCase,
-    this._getSingleOrderUseCase, this._updateOrderDaysUseCase,
+    this._getSingleOrderUseCase,
+    this._updateOrderDaysUseCase,
   );
 
   List<String> timeSlots = List.generate(14, (index) {
@@ -251,6 +252,28 @@ class SalonController extends GetxController {
     else {
       String orderId = response.data!;
       await pref.setStringList(orderId, ['$startTime', '${DateTime.now()}']);
+      Get.offAllNamed(Routes.homeScreen);
+    }
+  }
+
+  updateReserve(context) async {
+    List<Map<String, String>> reserveDay = [];
+    for (var item in selectedDays) {
+      reserveDay.add({
+        'day': item['day'].toString(),
+        'hours': item['hour'],
+      });
+    }
+    var response = await _updateOrderDaysUseCase.execute(
+      orderId: orderId!,
+      token: token,
+      reserveDay: reserveDay,
+    );
+    if (response.data == null) {
+      CommonMethods.showToast(context, response.error!);
+    } //
+    else {
+      await pref.setStringList(orderId!, ['$startTime', '${DateTime.now()}']);
       Get.offAllNamed(Routes.homeScreen);
     }
   }
