@@ -29,13 +29,16 @@ class CheckoutScreen extends StatelessWidget {
                       ),
                 ),
                 const SizedBox(height: 10),
-                const CustomTextField(
+                CustomTextField(
+                  controller: controller.couponCodeController,
                   labelText: 'کد تخفیف',
-                  labelIcon: Icon(Iconsax.ticket_discount),
+                  labelIcon: const Icon(Iconsax.ticket_discount),
                 ),
                 const SizedBox(height: 10),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    controller.checkCoupon(context);
+                  },
                   child: const Text('اعمال'),
                 ),
                 const SizedBox(height: 10),
@@ -92,7 +95,7 @@ class CheckoutScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
-                    controller.completeReserve();
+                    controller.completeReserve(context);
                   },
                   child: const Text('تکمیل رزرو'),
                 ),
