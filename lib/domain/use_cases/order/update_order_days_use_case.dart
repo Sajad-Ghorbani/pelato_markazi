@@ -10,7 +10,6 @@ class UpdateOrderDaysUseCase {
     required String orderId,
     required String token,
     required List<Map<String, String>> reserveDay,
-    String? couponCode,
   }) async {
     return _orderRepository.updateOrderDays(
       orderId: orderId,
