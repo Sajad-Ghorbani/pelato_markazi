@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pelato_markazi/app/config/routes/app_pages.dart';
+import 'package:pelato_markazi/app/core/utils/common_methods.dart';
 import 'package:pelato_markazi/app/services/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:toastification/toastification.dart';
 
 class SplashController extends GetxController {
   final BuildContext context;
@@ -49,30 +49,9 @@ class SplashController extends GetxController {
     } //
     else {
       isConnected = false;
-      showNotification();
+      CommonMethods.showToast(
+          context, 'برای استفاده از برنامه باید اینترنت گوشی را روشن کنید');
     }
-  }
-
-  showNotification() {
-    Future.delayed(Duration.zero, () {
-      toastification.show(
-        context: context,
-        autoCloseDuration: const Duration(seconds: 5),
-        type: ToastificationType.error,
-        style: ToastificationStyle.flat,
-        title: 'خطا',
-        description: 'برای استفاده از برنامه باید اینترنت گوشی را روشن کنید',
-        alignment: Alignment.topCenter,
-        borderRadius: BorderRadius.circular(12.0),
-        closeButtonShowType: CloseButtonShowType.none,
-        boxShadow: highModeShadow,
-        direction: TextDirection.rtl,
-        closeOnClick: false,
-        dragToClose: true,
-        pauseOnHover: false,
-      );
-      update();
-    });
   }
 
   changeAnimation() async {
