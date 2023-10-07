@@ -40,8 +40,8 @@ class SalonRepositoryImpl implements SalonRepository {
       Response response = await salonApi.getSalon(id: id, token: token);
       if (response.statusCode == 200) {
         SalonModel salon = SalonModel.fromJson(response.data['data']['salon']);
+        salon.reservedTimes = [];
         for (var item in response.data['data']['salon_reserve_days']) {
-          salon.reservedTimes = [];
           salon.reservedTimes!.add(ReserveModel.fromJson(item));
         }
         return DataSuccess(salon.toEntity());
