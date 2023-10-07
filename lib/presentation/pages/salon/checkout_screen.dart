@@ -21,26 +21,28 @@ class CheckoutScreen extends StatelessWidget {
             padding: const EdgeInsets.all(20),
             child: Column(
               children: [
-                Text(
-                  'اگه کد تخفیف داری اینجا وارد کن',
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                ),
-                const SizedBox(height: 10),
-                CustomTextField(
-                  controller: controller.couponCodeController,
-                  labelText: 'کد تخفیف',
-                  labelIcon: const Icon(Iconsax.ticket_discount),
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    controller.checkCoupon(context);
-                  },
-                  child: const Text('اعمال'),
-                ),
+                if (controller.isUpdate == null) ...[
+                  Text(
+                    'اگه کد تخفیف داری اینجا وارد کن',
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                  ),
+                  const SizedBox(height: 10),
+                  CustomTextField(
+                    controller: controller.couponCodeController,
+                    labelText: 'کد تخفیف',
+                    labelIcon: const Icon(Iconsax.ticket_discount),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () {
+                      controller.checkCoupon(context);
+                    },
+                    child: const Text('اعمال'),
+                  ),
+                ],
                 const SizedBox(height: 10),
                 Text(
                   'مبلغ نهایی: ${'${controller.sum}'.seRagham()} تومان'
@@ -95,7 +97,12 @@ class CheckoutScreen extends StatelessWidget {
                 const SizedBox(height: 10),
                 ElevatedButton(
                   onPressed: () {
-                    controller.completeReserve(context);
+                    if (controller.isUpdate != null) {
+                      controller.updateReserve(context);
+                    } //
+                    else {
+                      controller.completeReserve(context);
+                    }
                   },
                   child: const Text('تکمیل رزرو'),
                 ),
