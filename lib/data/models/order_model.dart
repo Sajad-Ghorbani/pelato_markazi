@@ -12,7 +12,7 @@ class OrderModel {
   @JsonKey(name: "_id")
   String? id;
   @JsonKey(name: "user")
-  dynamic userId;
+  String? userId;
   @JsonKey(name: "salon")
   SalonModel? salon;
   @JsonKey(name: "total_count")

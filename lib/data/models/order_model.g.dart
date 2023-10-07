@@ -8,7 +8,7 @@ part of 'order_model.dart';
 
 OrderModel _$OrderModelFromJson(Map<String, dynamic> json) => OrderModel(
       id: json['_id'] as String?,
-      userId: json['user'],
+      userId: json['user'] as String?,
       salon: json['salon'] == null
           ? null
           : SalonModel.fromJson(json['salon'] as Map<String, dynamic>),
