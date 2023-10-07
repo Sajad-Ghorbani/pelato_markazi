@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:pelato_markazi/data/models/feature_model.dart';
+import 'package:pelato_markazi/app/core/utils/app_constants.dart';
+import 'package:pelato_markazi/domain/entities/feature_entity.dart';
 import 'package:pelato_markazi/presentation/pages/home/widgets/salon_feature_widget.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
@@ -15,7 +17,7 @@ class HomeCardWidget extends StatelessWidget {
 
   final String title;
   final String imageAddress;
-  final List<FeatureModel> features;
+  final List<FeatureEntity> features;
   final VoidCallback onTap;
   final int area;
 
@@ -37,10 +39,14 @@ class HomeCardWidget extends StatelessWidget {
               children: [
                 Expanded(
                   child: ClipRRect(
-                    borderRadius:
-                        const BorderRadius.horizontal(left: Radius.circular(15)),
-                    child: Image.asset(
-                      imageAddress,
+                    borderRadius: const BorderRadius.horizontal(
+                        left: Radius.circular(15)),
+                    child: CachedNetworkImage(
+                      imageUrl: '${AppConstants.baseUrl}/$imageAddress',
+                      placeholder: (context, url) =>
+                          const Center(child: CircularProgressIndicator()),
+                      errorWidget: (context, url, error) =>
+                          const Center(child: Icon(Icons.error)),
                       height: 200,
                       fit: BoxFit.cover,
                     ),
@@ -63,9 +69,10 @@ class HomeCardWidget extends StatelessWidget {
                       ),
                       Text(
                         '$area متر'.toPersianDigit(),
-                        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style:
+                            Theme.of(context).textTheme.titleMedium!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
                       ),
                       const Spacer(),
                       SizedBox(
