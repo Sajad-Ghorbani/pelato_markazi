@@ -16,20 +16,6 @@ class SalonApi {
       ),
     );
     return response;
-    // try {
-    //   if (response.statusCode == 200) {
-    //     List<SalonModel> salons = [];
-    //     for (var item in response.data['data']) {
-    //       salons.add(SalonModel.fromJson(item));
-    //     }
-    //     return salons;
-    //   } //
-    //   return null;
-    // } on DioException catch (e) {
-    //   log(e.response!.statusCode.toString());
-    //   log(e.message.toString());
-    //   return null;
-    // }
   }
 
   Future getSalon({required String id, required String token}) async {
@@ -43,21 +29,5 @@ class SalonApi {
       ),
     );
     return response;
-    // try {
-    //
-    //   if (response.statusCode == 200) {
-    //     SalonModel salon = SalonModel.fromJson(response.data['data']['salon']);
-    //     for (var item in response.data['data']['salon_reserve_days']) {
-    //       salon.reservedTimes = [];
-    //       salon.reservedTimes!.add(ReserveModel.fromJson(item));
-    //     }
-    //     return salon;
-    //   } //
-    //   return null;
-    // } on DioException catch (e) {
-    //   log(e.response!.statusCode.toString());
-    //   log(e.message.toString());
-    //   return null;
-    // }
   }
 }

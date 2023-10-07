@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dio/dio.dart';
 import 'package:pelato_markazi/app/core/utils/app_constants.dart';
 import 'package:pelato_markazi/data/models/user_model.dart';
@@ -18,18 +16,6 @@ class UserApi {
       ),
     );
     return response;
-    // try {
-    //   if (response.statusCode == 200) {
-    //     return response.data['token'];
-    //   } //
-    //   else {
-    //     log(response.data['errors'].toString());
-    //     return null;
-    //   }
-    // } //
-    // on DioException catch (e) {
-    //   return e.message;
-    // }
   }
 
   Future completeProfile({required User user, required String token}) async {
@@ -44,17 +30,5 @@ class UserApi {
       ),
     );
     return response;
-    // try {
-    //   if (response.statusCode == 200) {
-    //     return response.data['message'];
-    //   } //
-    //   else {
-    //     return null;
-    //   }
-    // } on DioException catch (e) {
-    //   log(e.response!.statusCode.toString());
-    //     log(e.response!.data['errors'].toString());
-    //   return e.message;
-    // }
   }
 }
