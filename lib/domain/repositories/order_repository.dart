@@ -4,13 +4,13 @@ import 'package:pelato_markazi/domain/entities/order_entity.dart';
 import 'package:pelato_markazi/domain/entities/order_meta_data_entity.dart';
 
 abstract interface class OrderRepository {
-  Future<DataState<(OrderMetaDataEntity, List<OrderEntity>)?>> getAllOrder(
+  Future<DataState<(OrderMetaDataEntity, List<OrderEntity>)>> getAllOrder(
       {required String token, int page = 0});
 
   Future<DataState<OrderEntity>> getOrder(
       {required String token, required String id});
 
-  Future<DataState<bool>> createOrder({
+  Future<DataState<String>> createOrder({
     required String salonId,
     required String token,
     String? couponCode,
