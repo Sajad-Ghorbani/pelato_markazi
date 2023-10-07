@@ -24,10 +24,21 @@ class OrderViewScreen extends GetView<OrderController> {
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 10),
             child: Column(
               children: [
+                ClipRRect(
+                  borderRadius: const BorderRadius.all(Radius.circular(15)),
+                  child: Image.asset(
+                    'assets/images/salon_1.jpg',
+                    height: 200,
+                    width: Get.width,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                const SizedBox(height: 10),
                 Row(
                   children: [
                     const Text(
                       'تاریخ رزرو:',
+                      style: TextStyle(fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(width: 5),
                     Text(order.orderDate!.toPersianDate()),
@@ -100,6 +111,126 @@ class OrderViewScreen extends GetView<OrderController> {
                     ),
                   );
                 }),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 80,
+                      child: Text(
+                        'روز: ',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onTertiaryContainer,
+                            ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      '${order.orderDays.length}'.toPersianDigit(),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 16,
+                          ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    SizedBox(
+                      width: 80,
+                      child: Text(
+                        'ساعت: ',
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontWeight: FontWeight.bold,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onTertiaryContainer,
+                            ),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Text(
+                      '${order.orderHours}'.toPersianDigit(),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 16,
+                          ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+                Row(
+                  children: [
+                    Text(
+                      'تعرفه: ',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onTertiaryContainer,
+                          ),
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      '${'${order.salon!.rentCost!}'.seRagham()} تومان'
+                          .toPersianDigit(),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 16,
+                          ),
+                    ),
+                    const Spacer(),
+                    Text(
+                      'تخفیف: ',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onTertiaryContainer,
+                          ),
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      '${'${order.appliedCouponDiscount! * order.orderHours}'.seRagham().toPersianDigit()} تومان',
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 16,
+                          ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'مبلغ کل: ',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context)
+                                .colorScheme
+                                .onTertiaryContainer,
+                          ),
+                    ),
+                    const SizedBox(width: 5),
+                    Text(
+                      '${'${order.totalCount}'.seRagham().toPersianDigit()} تومان',
+                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                            fontSize: 16,
+                          ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
                 Visibility(
                   visible: order.status == 'pending',
                   child: ElevatedButton(
