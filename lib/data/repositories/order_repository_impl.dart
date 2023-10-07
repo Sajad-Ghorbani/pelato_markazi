@@ -18,24 +18,28 @@ class OrderRepositoryImpl implements OrderRepository {
   OrderRepositoryImpl(this.orderApi);
 
   @override
-  Future<DataState<bool>> createOrder(
+  Future<DataState<String>> createOrder(
       {required String salonId,
       required String token,
       String? couponCode,
       required List<Map<String, String>> reserveDay}) async {
     try {
       Response response = await orderApi.createOrder(
-          salonId: salonId, token: token, reserveDay: reserveDay);
+        salonId: salonId,
+        token: token,
+        reserveDay: reserveDay,
+        couponCode: couponCode,
+      );
       if (response.statusCode == 201) {
-        return const DataSuccess(true);
+        return DataSuccess(response.data['order']['_id']);
       } //
-      else if (response.statusCode == 404) {
-        return const DataFailed('زمان های انتخاب شده قبلا رزرو شده اند.');
-      }
       return DataFailed(response.data['errors'].toString());
     } on DioException catch (e) {
       log(e.response!.statusCode.toString());
       log(e.response!.data['message'].toString());
+      if (e.response?.statusCode == 404) {
+        return const DataFailed('زمان های انتخاب شده قبلا رزرو شده اند.');
+      }
       return DataFailed(e.message.toString());
     }
   }
@@ -72,10 +76,13 @@ class OrderRepositoryImpl implements OrderRepository {
         var coupon = Coupon.fromJson(response.data['data']);
         return DataSuccess(coupon.toEntity());
       } //
-      return const DataFailed('');
+      return const DataFailed('error');
     } on DioException catch (e) {
       log(e.response!.statusCode.toString());
       log(e.message.toString());
+      if (e.response!.statusCode == 404) {
+        return const DataFailed('کد وارد شده صحیح نمی باشد.');
+      }
       return const DataFailed('error');
     }
   }
@@ -87,8 +94,8 @@ class OrderRepositoryImpl implements OrderRepository {
       Response response = await orderApi.getOrder(id: id, token: token);
       if (response.statusCode == 200) {
         var order = OrderModel.fromJson(response.data['data']['order']);
+        order.salon!.reservedTimes = [];
         for (var item in response.data['data']['reserve_days']) {
-          order.salon!.reservedTimes = [];
           order.salon!.reservedTimes!.add(ReserveModel.fromJson(item));
         }
         return DataSuccess(order.toEntity());
@@ -130,7 +137,7 @@ class OrderRepositoryImpl implements OrderRepository {
       required String token}) async {
     try {
       Response response = await orderApi.updateOrderStatus(id, status, token);
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         return const DataSuccess(true);
       } //
       else if (response.statusCode == 400) {
