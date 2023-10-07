@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
+import 'package:pelato_markazi/app/config/routes/app_pages.dart';
 import 'package:pelato_markazi/app/config/theme/app_colors.dart';
 import 'package:pelato_markazi/app/core/widgets/base_widget.dart';
-import 'package:pelato_markazi/data/models/order_model.dart';
+import 'package:pelato_markazi/domain/entities/order_entity.dart';
 import 'package:pelato_markazi/presentation/controller/order/order_controller.dart';
 import 'package:persian_number_utility/persian_number_utility.dart';
 
@@ -13,7 +14,7 @@ class OrderViewScreen extends GetView<OrderController> {
 
   @override
   Widget build(BuildContext context) {
-    OrderModel order = Get.arguments;
+    OrderEntity order = Get.arguments;
     return GetBuilder<OrderController>(
       builder: (controller) {
         return BaseWidget(
@@ -103,7 +104,12 @@ class OrderViewScreen extends GetView<OrderController> {
                   visible: order.status == 'pending',
                   child: ElevatedButton(
                     onPressed: () {
-                      controller.editOrder(order);
+                      Get.offNamed(Routes.singleSalonScreen,
+                          arguments: order.salon!.id,
+                          parameters: {
+                            'isUpdate': 'true',
+                            'orderId': order.id!,
+                          });
                     },
                     child: const Text('ویرایش'),
                   ),
