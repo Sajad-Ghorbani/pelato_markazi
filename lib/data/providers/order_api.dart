@@ -17,22 +17,6 @@ class OrderApi {
       ),
     );
     return response;
-    // try {
-    //   if (response.statusCode == 200) {
-    //     List<OrderModel> orders = [];
-    //     for (var item in response.data['orders']) {
-    //       orders.add(OrderModel.fromJson(item));
-    //     }
-    //     OrderMetaData metaData =
-    //         OrderMetaData.fromJson(response.data['metadata']);
-    //     return (metaData, orders);
-    //   } //
-    //   return null;
-    // } on DioException catch (e) {
-    //   log(e.response!.statusCode.toString());
-    //   log(e.message.toString());
-    //   return null;
-    // }
   }
 
   Future getOrder({required String id, required String token}) async {
@@ -46,22 +30,6 @@ class OrderApi {
       ),
     );
     return response;
-    // try {
-    //
-    //   if (response.statusCode == 200) {
-    //     var order = OrderModel.fromJson(response.data['data']['order']);
-    //     for (var item in response.data['data']['reserve_days']) {
-    //       order.salon!.reservedTimes = [];
-    //       order.salon!.reservedTimes!.add(ReserveModel.fromJson(item));
-    //     }
-    //     return order;
-    //   } //
-    //   return null;
-    // } on DioException catch (e) {
-    //   log(e.response!.statusCode.toString());
-    //   log(e.message.toString());
-    //   return null;
-    // }
   }
 
   Future createOrder({
@@ -86,19 +54,6 @@ class OrderApi {
       ),
     );
     return response;
-    // try {
-    //   if (response.statusCode == 201) {
-    //     return const DataSuccess(true);
-    //   } //
-    //   else if (response.statusCode == 404) {
-    //     return const DataFailed('زمان های انتخاب شده قبلا رزرو شده اند.');
-    //   }
-    //   return DataFailed(response.data['errors'].toString());
-    // } on DioException catch (e) {
-    //   log(e.response!.statusCode.toString());
-    //   log(e.response!.data['message'].toString());
-    //   return DataFailed(e.message.toString());
-    // }
   }
 
   Future updateOrderDays({
@@ -121,19 +76,6 @@ class OrderApi {
       ),
     );
     return response;
-    // try {
-    //   if (response.statusCode == 200) {
-    //     return const DataSuccess(true);
-    //   } //
-    //   else if (response.statusCode == 404) {
-    //     return const DataFailed('زمان های انتخاب شده قبلا رزرو شده اند.');
-    //   }
-    //   return DataFailed(response.data['errors'].toString());
-    // } on DioException catch (e) {
-    //   log(e.response!.statusCode.toString());
-    //   log(e.response!.data['message'].toString());
-    //   return DataFailed(e.message.toString());
-    // }
   }
 
   Future updateOrderStatus(
@@ -153,19 +95,6 @@ class OrderApi {
         ),
       );
       return response;
-    // try {
-    //   if (response.statusCode == 201) {
-    //     return const DataSuccess(true);
-    //   } //
-    //   else if (response.statusCode == 404) {
-    //     return const DataFailed('این کد تخفیف قبلا استفاده شده است.');
-    //   }
-    //   return DataFailed(response.data['errors'].toString());
-    // } on DioException catch (e) {
-    //   log(e.response!.statusCode.toString());
-    //   log(e.response!.data['message'].toString());
-    //   return DataFailed(e.message.toString());
-    // }
   }
 
   Future getCoupon({required String couponCode, required String token}) async {
@@ -179,17 +108,5 @@ class OrderApi {
       ),
     );
     return response;
-
-    // try {
-    //   if (response.statusCode == 200) {
-    //     var coupon = Coupon.fromJson(response.data['data']);
-    //     return coupon;
-    //   } //
-    //   return null;
-    // } on DioException catch (e) {
-    //   log(e.response!.statusCode.toString());
-    //   log(e.message.toString());
-    //   return null;
-    // }
   }
 }
