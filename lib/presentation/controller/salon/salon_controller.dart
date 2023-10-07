@@ -5,11 +5,32 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:pelato_markazi/app/config/routes/app_pages.dart';
 import 'package:pelato_markazi/app/core/utils/common_methods.dart';
-import 'package:pelato_markazi/data/models/salon_model.dart';
 import 'package:pelato_markazi/app/services/services.dart';
+import 'package:pelato_markazi/domain/entities/coupon_entity.dart';
+import 'package:pelato_markazi/domain/entities/order_entity.dart';
+import 'package:pelato_markazi/domain/entities/salon_entity.dart';
+import 'package:pelato_markazi/domain/use_cases/order/create_order_use_case.dart';
+import 'package:pelato_markazi/domain/use_cases/order/get_single_order_use_case.dart';
+import 'package:pelato_markazi/domain/use_cases/order/update_order_days_use_case.dart';
+import 'package:pelato_markazi/domain/use_cases/salon/get_coupon_use_case.dart';
+import 'package:pelato_markazi/domain/use_cases/salon/get_salon_use_case.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:toastification/toastification.dart';
 
 class SalonController extends GetxController {
+  final GetSalonUseCase _getSalonUseCase;
+  final GetCouponUseCase _getCouponUseCase;
+  final CreateOrderUseCase _createOrderUseCase;
+  final GetSingleOrderUseCase _getSingleOrderUseCase;
+  final UpdateOrderDaysUseCase _updateOrderDaysUseCase;
+
+  SalonController(
+    this._getSalonUseCase,
+    this._getCouponUseCase,
+    this._createOrderUseCase,
+    this._getSingleOrderUseCase, this._updateOrderDaysUseCase,
+  );
+
   List<String> timeSlots = List.generate(14, (index) {
     final startHour = 8 + index;
     final endHour = startHour + 1;
@@ -18,32 +39,72 @@ class SalonController extends GetxController {
   DateTime now = DateTime.now();
   Timer? timer;
   SharedPreferences pref = Get.find<Services>().pref;
-  int startTime = 3599;
+  int startTime = 120;
 
   List<List<Map<String, dynamic>>> days = [];
   List<Map<String, dynamic>> selectedDays = [];
   late DateTime weekStart;
 
-  SalonModel salon = Get.arguments;
+  SalonEntity? salon;
+  String salonId = Get.arguments;
   String? isUpdate = Get.parameters['isUpdate'];
-  TextEditingController checkoutController = TextEditingController();
+  String? orderId = Get.parameters['orderId'];
+  TextEditingController couponCodeController = TextEditingController();
+  String token = '-1';
+  bool isCouponFree = false;
 
   int weekIndex = 0;
   List<int> daysCount = [];
   int sum = 0;
 
   @override
-  void onInit() {
-    super.onInit();
-    weekStart = mostRecentWeekday(now, 6);
-    setTimesOfDays();
+  void onReady() {
+    super.onReady();
+    token = pref.getString('token') ?? '-1';
+    weekStart = mostRecentWeekday(now);
+    getSalon(Get.context!).then((value) {
+      if (now.weekday == 5) {
+        goToNextWeek();
+      }
+      setTimesOfDays();
+    });
+  }
+
+  Future<OrderEntity?> getOrder(String orderId) async {
+    var response =
+        await _getSingleOrderUseCase.execute(id: orderId, token: token);
+    return response.data;
+  }
+
+  Future getSalon(context) async {
+    if (token != '-1') {
+      var response = await _getSalonUseCase.execute(token: token, id: salonId);
+      if (response.data == null) {
+        CommonMethods.showToast(context, response.error!);
+        return;
+      } //
+      else {
+        salon = response.data!;
+        if (isUpdate == 'true') {
+          OrderEntity? order = await getOrder(orderId!);
+          if (order != null) {
+            for (var item in order.salon!.reservedTimes!) {
+              item.status = 'selected';
+              salon!.reservedTimes!.add(item);
+            }
+            salon!.reservedTimes!.sort((a, b) => a.day!.compareTo(b.day!));
+          }
+        }
+        update();
+      }
+    }
   }
 
   @override
   void onClose() {
     super.onClose();
     timer?.cancel();
-    checkoutController.dispose();
+    couponCodeController.dispose();
   }
 
   void setTimesOfDays() {
@@ -63,7 +124,7 @@ class SalonController extends GetxController {
       }
     }
     for (int i = difference + 1; i < days.length; i++) {
-      for (var item in salon.reservedTimes!) {
+      for (var item in salon!.reservedTimes!) {
         setItemOfDate(item.day!, i, item.hours!, item.status!);
         if (isUpdate != null) {
           if (item.status == 'selected') {
@@ -81,7 +142,7 @@ class SalonController extends GetxController {
         }
       }
     }
-    sum = selectedDays.length * salon.rentCost!;
+    sum = selectedDays.length * salon!.rentCost!;
     update();
   }
 
@@ -94,9 +155,9 @@ class SalonController extends GetxController {
     }
   }
 
-  DateTime mostRecentWeekday(DateTime date, int weekday) {
-    var dateTime = DateTime(
-        date.year, date.month, date.day - (date.weekday - weekday) % 7, 12);
+  DateTime mostRecentWeekday(DateTime date) {
+    var dateTime =
+        DateTime(date.year, date.month, date.day - (date.weekday - 6) % 7, 12);
     return dateTime;
   }
 
@@ -120,7 +181,7 @@ class SalonController extends GetxController {
     selectedDays
         .sort((a, b) => (a['day'] as DateTime).compareTo(b['day'] as DateTime));
     calculateCountOfDays(selectedDays);
-    sum = selectedDays.length * salon.rentCost!;
+    sum = selectedDays.length * salon!.rentCost!;
     update();
   }
 
@@ -134,7 +195,10 @@ class SalonController extends GetxController {
   }
 
   void goToPreWeek() {
-    if (weekStart.isAfter(DateTime.now())) {
+    if (now.weekday == 5 && weekIndex == 1) {
+      return;
+    } //
+    else if (weekStart.isAfter(now)) {
       weekIndex--;
       weekStart = weekStart.subtract(const Duration(days: 7));
       setTimesOfDays();
@@ -167,10 +231,50 @@ class SalonController extends GetxController {
     }
   }
 
-  void completeReserve() async {
-    // TODO: send data to server and get order id
-    String orderId = 'time1';
-    await pref.setStringList(orderId, ['$startTime', '${DateTime.now()}']);
-    Get.offAllNamed(Routes.homeScreen);
+  void completeReserve(context) async {
+    List<Map<String, String>> reserveDay = [];
+    for (var item in selectedDays) {
+      reserveDay.add({
+        'day': item['day'].toString(),
+        'hours': item['hour'],
+      });
+    }
+    var response = await _createOrderUseCase.execute(
+      salonId: salonId,
+      token: token,
+      reserveDay: reserveDay,
+      couponCode: isCouponFree ? couponCodeController.text : null,
+    );
+    if (response.data == null) {
+      CommonMethods.showToast(context, response.error!);
+    } //
+    else {
+      String orderId = response.data!;
+      await pref.setStringList(orderId, ['$startTime', '${DateTime.now()}']);
+      Get.offAllNamed(Routes.homeScreen);
+    }
+  }
+
+  void checkCoupon(context) async {
+    var response = await _getCouponUseCase.execute(
+      couponCode: couponCodeController.text,
+      token: token,
+    );
+    if (response.data == null) {
+      CommonMethods.showToast(context, response.error!);
+    } //
+    else {
+      CouponEntity coupon = response.data!;
+      if (coupon.status == 'fill') {
+        CommonMethods.showToast(context, 'این کد تخفیف قبلا استفاده شده است.');
+      } //
+      else {
+        CommonMethods.showToast(context, 'تخفیف با موفقیت اعمال شد.',
+            type: ToastificationType.success);
+        sum = selectedDays.length * (salon!.rentCost! - coupon.discount!);
+        isCouponFree = true;
+        update();
+      }
+    }
   }
 }

@@ -4,6 +4,12 @@ import 'package:pelato_markazi/presentation/controller/salon/salon_controller.da
 class SalonBinding implements Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<SalonController>(() => SalonController());
+    Get.lazyPut<SalonController>(() => SalonController(
+          Get.find(),
+          Get.find(),
+          Get.find(),
+          Get.find(),
+          Get.find(),
+        ));
   }
 }
