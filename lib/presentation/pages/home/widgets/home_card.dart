@@ -32,64 +32,58 @@ class HomeCardWidget extends StatelessWidget {
         child: InkWell(
           borderRadius: const BorderRadius.all(Radius.circular(15)),
           onTap: onTap,
-          child: Container(
-            padding: const EdgeInsets.only(right: 10),
-            child: Row(
-              textDirection: TextDirection.ltr,
-              children: [
-                Expanded(
-                  child: ClipRRect(
-                    borderRadius: const BorderRadius.horizontal(
-                        left: Radius.circular(15)),
-                    child: CachedNetworkImage(
-                      imageUrl: '${AppConstants.baseUrl}/$imageAddress',
-                      placeholder: (context, url) =>
-                          const Center(child: CircularProgressIndicator()),
-                      errorWidget: (context, url, error) =>
-                          const Center(child: Icon(Icons.error)),
-                      height: 200,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Container(
+          child: Column(
+            children: [
+              ClipRRect(
+                borderRadius: const BorderRadius.vertical(
+                    top: Radius.circular(15)),
+                child: CachedNetworkImage(
+                  imageUrl: '${AppConstants.imageUrl}$imageAddress',
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) =>
+                      const Center(child: Icon(Icons.error)),
                   height: 200,
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title.toPersianDigit(),
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 18,
-                                ),
-                      ),
-                      Text(
-                        '$area متر'.toPersianDigit(),
-                        style:
-                            Theme.of(context).textTheme.titleMedium!.copyWith(
-                                  fontWeight: FontWeight.bold,
-                                ),
-                      ),
-                      const Spacer(),
-                      SizedBox(
-                        width: width * 0.55,
-                        child: Wrap(
-                          spacing: 5,
-                          runSpacing: 5,
-                          children: features.map((item) {
-                            return SalonFeatureWidget(title: item.description!);
-                          }).toList(),
-                        ),
-                      ),
-                    ],
-                  ),
+                  width: width,
+                  fit: BoxFit.cover,
                 ),
-              ],
-            ),
+              ),
+              Container(
+                padding: const EdgeInsets.all(10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title.toPersianDigit(),
+                      style:
+                          Theme.of(context).textTheme.titleMedium!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 24,
+                              ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      'متراژ: $area متر مربع'.toPersianDigit(),
+                      style:
+                          Theme.of(context).textTheme.titleMedium!.copyWith(
+                                fontWeight: FontWeight.bold,
+                              ),
+                    ),
+                    const SizedBox(height: 15),
+                    SizedBox(
+                      width: width,
+                      child: Wrap(
+                        spacing: 5,
+                        runSpacing: 5,
+                        children: features.map((item) {
+                          return SalonFeatureWidget(title: item.description!);
+                        }).toList(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
