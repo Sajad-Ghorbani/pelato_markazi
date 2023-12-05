@@ -4,6 +4,7 @@ import 'package:pelato_markazi/presentation/pages/home/main_screen.dart';
 import 'package:pelato_markazi/presentation/controller/order/order_binding.dart';
 import 'package:pelato_markazi/presentation/pages/order/order_view_screen.dart';
 import 'package:pelato_markazi/presentation/controller/salon/salon_binding.dart';
+import 'package:pelato_markazi/presentation/pages/privacy/privacy_and_policy_screen.dart';
 import 'package:pelato_markazi/presentation/pages/salon/checkout_screen.dart';
 import 'package:pelato_markazi/presentation/pages/salon/single_salon_screen.dart';
 import 'package:pelato_markazi/presentation/pages/splash/intro_screen.dart';
@@ -52,6 +53,11 @@ class AppPages {
     GetPage(
       name: Routes.orderViewScreen,
       page: () => const OrderViewScreen(),
+      binding: OrderBinding(),
+    ),
+    GetPage(
+      name: Routes.privacyAndPolicyScreen,
+      page: () => const PrivacyAndPolicyScreen(),
       binding: OrderBinding(),
     ),
   ];
