@@ -1,9 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:pelato_markazi/app/config/routes/app_pages.dart';
 import 'package:pelato_markazi/app/config/theme/app_colors.dart';
+import 'package:pelato_markazi/app/core/utils/app_constants.dart';
 import 'package:pelato_markazi/app/core/widgets/base_widget.dart';
 import 'package:pelato_markazi/domain/entities/order_entity.dart';
 import 'package:pelato_markazi/presentation/controller/order/order_controller.dart';
@@ -26,11 +28,14 @@ class OrderViewScreen extends GetView<OrderController> {
               children: [
                 ClipRRect(
                   borderRadius: const BorderRadius.all(Radius.circular(15)),
-                  child: Image.asset(
-                    'assets/images/salon_1.jpg',
-                    height: 200,
-                    width: Get.width,
-                    fit: BoxFit.cover,
+                  child: Hero(
+                    tag: order.id!,
+                    child: CachedNetworkImage(
+                      imageUrl: AppConstants.imageUrl + order.salon!.images![0],
+                      height: 200,
+                      width: Get.width,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
                 const SizedBox(height: 10),
