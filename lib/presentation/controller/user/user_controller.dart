@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:pelato_markazi/app/config/routes/app_pages.dart';
@@ -33,20 +35,31 @@ class UserController extends GetxController {
     instagramController.dispose();
   }
 
-  void sendMessageWhatsApp(BuildContext context) async {
+  void sendMessageWhatsApp(context) async {
     var whatsapp = "+989024349208";
     var whatsappUrlAndroid =
         "whatsapp://send?phone=$whatsapp&text=سلام. من برای رزرو سالن مزاحمتون شدم.";
-
-    if (await canLaunchUrlString(whatsappUrlAndroid)) {
-      await launchUrlString(whatsappUrlAndroid);
-    } else {
-      CommonMethods.showToast(
-          context, 'برنامه واتساپ بر روی گوشی شما نصب نمی باشد.');
+    var whatsappUrlIOS =
+        "https://wa.me/$whatsapp?text=${Uri.parse("سلام. من برای رزرو سالن مزاحمتون شدم.")}";
+    if (Platform.isIOS) {
+      if (await canLaunchUrlString(whatsappUrlIOS)) {
+        await launchUrlString(whatsappUrlIOS);
+      } else {
+        CommonMethods.showToast(
+            context, 'برنامه واتساپ بر روی گوشی شما نصب نمی باشد.');
+      }
+    } //
+    else {
+      if (await canLaunchUrlString(whatsappUrlAndroid)) {
+        await launchUrlString(whatsappUrlAndroid);
+      } else {
+        CommonMethods.showToast(
+            context, 'برنامه واتساپ بر روی گوشی شما نصب نمی باشد.');
+      }
     }
   }
 
-  void checkConfirmCode(BuildContext context) async {
+  void checkConfirmCode(context) async {
     var response = await _confirmCodeUSeCase.execute(
         confirmCode: confirmCodeController.text.trim(),
         phone: phoneNumberController.text.trim());
@@ -57,7 +70,7 @@ class UserController extends GetxController {
     Get.toNamed(Routes.signupScreen);
   }
 
-  void signup(BuildContext context) async {
+  void signup(context) async {
     UserParams user = UserParams(
       name: nameController.text,
       familyName: familyNameController.text,
