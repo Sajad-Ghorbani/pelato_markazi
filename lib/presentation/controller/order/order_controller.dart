@@ -58,7 +58,7 @@ class OrderController extends GetxController {
       if (time.isNotEmpty) {
         int difference =
             DateTime.now().difference(DateTime.parse(time[1])).inSeconds;
-        if (difference < 120 && item.status == 'pending') {
+        if (difference < 3599 && item.status == 'pending') {
           item.remainedTime = int.parse(time[0]) - difference;
         } //
         else {
@@ -101,16 +101,19 @@ class OrderController extends GetxController {
   }
 
   goToSingleOrderScreen(context, {required OrderEntity order}) async {
+    showLoading = true;
+    update();
     var response =
         await _getSingleOrderUseCase.execute(id: order.id!, token: token);
     if (response.data == null) {
       CommonMethods.showToast(context, response.error!);
     } //
     else {
-      print(response.data!.salon!.reservedTimes);
       order.salon!.reservedTimes = response.data!.salon!.reservedTimes;
       Get.toNamed(Routes.orderViewScreen, arguments: order);
     }
+    showLoading = false;
+    update();
   }
 
   Future checkOrderStatus() async {
@@ -127,7 +130,6 @@ class OrderController extends GetxController {
   Future updateOrderStatus({required String id}) async {
     var response = await _updateOrderStatusUseCase.execute(
         id: id, status: 'canceled', token: token);
-    print(response.data);
     if (response.data == null) {
       CommonMethods.showToast(
           Get.context!, 'خطایی در دریافت اطلاعات رخ داده است.');
