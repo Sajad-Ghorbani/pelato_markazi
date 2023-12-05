@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,6 +15,7 @@ import 'package:pelato_markazi/domain/use_cases/order/get_single_order_use_case.
 import 'package:pelato_markazi/domain/use_cases/order/update_order_days_use_case.dart';
 import 'package:pelato_markazi/domain/use_cases/salon/get_coupon_use_case.dart';
 import 'package:pelato_markazi/domain/use_cases/salon/get_salon_use_case.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toastification/toastification.dart';
 
@@ -40,7 +42,7 @@ class SalonController extends GetxController {
   DateTime now = DateTime.now();
   Timer? timer;
   SharedPreferences pref = Get.find<Services>().pref;
-  int startTime = 120;
+  int startTime = 3599;
 
   List<List<Map<String, dynamic>>> days = [];
   List<Map<String, dynamic>> selectedDays = [];
@@ -124,18 +126,22 @@ class SalonController extends GetxController {
         days[i].fillRange(0, 14, {'status': 'outdated', 'index': 0});
       }
     }
+    if (isUpdate != null) {
+      selectedDays.clear();
+      for (var item in salon!.reservedTimes!) {
+        if (item.status == 'selected') {
+          selectedDays.add({
+            'day': item.day,
+            'hour': item.hours,
+          });
+          calculateCountOfDays(selectedDays);
+        }
+      }
+    }
     for (int i = difference + 1; i < days.length; i++) {
       for (var item in salon!.reservedTimes!) {
-        setItemOfDate(item.day!, i, item.hours!, item.status!);
-        if (isUpdate != null) {
-          if (item.status == 'selected') {
-            selectedDays.add({
-              'day': item.day,
-              'hour': item.hours,
-            });
-            calculateCountOfDays(selectedDays);
-          }
-        }
+        setItemOfDate(item.day!, i, item.hours!,
+            item.status == 'canceled' ? 'free' : item.status!);
       }
       if (isUpdate == null) {
         for (var item in selectedDays) {
@@ -145,6 +151,7 @@ class SalonController extends GetxController {
     }
     sum = selectedDays.length * salon!.rentCost!;
     update();
+    log(selectedDays.toString());
   }
 
   setItemOfDate(DateTime date, int daysIndex, String hour, String status) {
@@ -157,8 +164,8 @@ class SalonController extends GetxController {
   }
 
   DateTime mostRecentWeekday(DateTime date) {
-    var dateTime =
-        DateTime(date.year, date.month, date.day - (date.weekday - 6) % 7, 12);
+    var dateTime = DateTime.utc(
+        date.year, date.month, date.day - (date.weekday - 6) % 7, 8, 30);
     return dateTime;
   }
 
