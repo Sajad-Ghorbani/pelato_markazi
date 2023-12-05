@@ -22,12 +22,12 @@ class HomeController extends GetxController {
   ];
 
   List<SalonEntity> salonList = [];
+  List<String> salonImages = [];
 
   @override
   void onReady() {
     super.onReady();
     getSalons(Get.context!);
-
   }
 
   void changePage(int index) {
@@ -35,13 +35,16 @@ class HomeController extends GetxController {
     update();
   }
 
-  void getSalons(BuildContext context) async {
+  void getSalons(context) async {
     SharedPreferences pref = Get.find<Services>().pref;
     String token = pref.getString('token') ?? '-1';
     if (token != '-1') {
       var response = await _allSalonsUseCase.execute(token: token);
       if (response.data != null) {
         salonList = response.data!;
+        for (var value in salonList) {
+          salonImages.addAll(value.images!);
+        }
         update();
       } //
       else {
