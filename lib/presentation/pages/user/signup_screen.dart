@@ -1,5 +1,7 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:pelato_markazi/app/config/routes/app_pages.dart';
 import 'package:pelato_markazi/app/core/widgets/custom_text_field.dart';
 import 'package:pelato_markazi/presentation/controller/user/user_controller.dart';
 
@@ -11,7 +13,7 @@ class SignUpScreen extends GetView<UserController> {
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-            padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -67,7 +69,8 @@ class SignUpScreen extends GetView<UserController> {
                   Text('وارد کردن ستاره دارها اجباریه'),
                 ],
               ),
-              const Text('اگه دوست داری از پیشنهادهای ویژه بهره مند بشی، همه فیلدها رو تکمیل کن.'),
+              const Text('اگه دوست داری از پیشنهادهای ویژه بهره مند بشی، همه'
+                  ' فیلدها رو تکمیل کن.'),
               const SizedBox(height: 30),
               Center(
                 child: ElevatedButton(
@@ -75,6 +78,30 @@ class SignUpScreen extends GetView<UserController> {
                     controller.signup(context);
                   },
                   child: const Text('تکمیل اطلاعات'),
+                ),
+              ),
+              const SizedBox(height: 10),
+              Center(
+                child: RichText(
+                  text: TextSpan(
+                    style: TextStyle(
+                      fontFamily: 'Sans',
+                      // fontSize: 12,
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+                    children: [
+                      const TextSpan(text: 'شرایط استفاده از خدمات و '),
+                      TextSpan(
+                        text: 'حریم خصوصی',
+                        style: const TextStyle(color: Colors.blueAccent),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            Get.toNamed(Routes.privacyAndPolicyScreen);
+                          },
+                      ),
+                      const TextSpan(text: ' را میپذیرم.'),
+                    ],
+                  ),
                 ),
               ),
             ],
