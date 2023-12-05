@@ -241,13 +241,14 @@ class SingleSalonScreen extends StatelessWidget {
                         ],
                       ),
                       const SizedBox(height: 10),
-                      ElevatedButton(
-                        onPressed: () {
-                          if (controller.sum > 0) {
+                      IgnorePointer(
+                        ignoring: controller.sum <= 0,
+                        child: ElevatedButton(
+                          onPressed: () {
                             Get.toNamed(Routes.checkoutScreen);
-                          }
-                        },
-                        child: const Text('ادامه رزرو'),
+                          },
+                          child: const Text('ادامه رزرو'),
+                        ),
                       ),
                     ],
                   ),
