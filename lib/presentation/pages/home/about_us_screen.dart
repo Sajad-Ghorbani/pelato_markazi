@@ -176,7 +176,7 @@ class AboutUsScreen extends StatelessWidget {
                   TileLayer(
                     urlTemplate:
                         'https://tile.openstreetmap.org/{z}/{x}/{y}.png',
-                    userAgentPackageName: 'com.example.pelato_markazi',
+                    userAgentPackageName: 'com.pelatomarkazi.pelato_markazi',
                   ),
                   MarkerLayer(
                     markers: [
