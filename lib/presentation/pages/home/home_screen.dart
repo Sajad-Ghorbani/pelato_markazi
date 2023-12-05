@@ -1,7 +1,9 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pelato_markazi/app/config/routes/app_pages.dart';
+import 'package:pelato_markazi/app/core/utils/app_constants.dart';
 import 'package:pelato_markazi/app/core/widgets/base_widget.dart';
 import 'package:pelato_markazi/presentation/controller/home/home_controller.dart';
 import 'package:pelato_markazi/presentation/pages/home/widgets/home_card.dart';
@@ -25,12 +27,12 @@ class HomeScreen extends StatelessWidget {
                     children: [
                       const SizedBox(height: 20),
                       CarouselSlider(
-                        items: controller.salonList.map((e) {
+                        items: controller.salonImages.map((image) {
                           return ClipRRect(
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(20)),
-                            child: Image.asset(
-                              'assets/images/salon_1.jpg',
+                            child: CachedNetworkImage(
+                              imageUrl: AppConstants.imageUrl + image,
                               fit: BoxFit.cover,
                               width: MediaQuery.sizeOf(context).width,
                             ),
