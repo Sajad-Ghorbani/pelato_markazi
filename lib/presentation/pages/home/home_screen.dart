@@ -38,10 +38,14 @@ class HomeScreen extends StatelessWidget {
                             ),
                           );
                         }).toList(),
+                        disableGesture: true,
                         options: CarouselOptions(
                           height: 180,
                           autoPlay: true,
                           enlargeCenterPage: true,
+                          scrollPhysics: const NeverScrollableScrollPhysics(),
+                          pauseAutoPlayOnManualNavigate: false,
+                          pauseAutoPlayOnTouch: false,
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -61,7 +65,7 @@ class HomeScreen extends StatelessWidget {
                       ...controller.salonList.map((salon) {
                         return HomeCardWidget(
                           title: salon.name!,
-                          imageAddress: salon.images![0],
+                          images: salon.images!,
                           features: salon.features!,
                           onTap: () {
                             Get.toNamed(
