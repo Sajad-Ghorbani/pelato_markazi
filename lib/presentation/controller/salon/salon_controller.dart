@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -15,7 +14,6 @@ import 'package:pelato_markazi/domain/use_cases/order/get_single_order_use_case.
 import 'package:pelato_markazi/domain/use_cases/order/update_order_days_use_case.dart';
 import 'package:pelato_markazi/domain/use_cases/salon/get_coupon_use_case.dart';
 import 'package:pelato_markazi/domain/use_cases/salon/get_salon_use_case.dart';
-import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:toastification/toastification.dart';
 
@@ -34,7 +32,7 @@ class SalonController extends GetxController {
     this._updateOrderDaysUseCase,
   );
 
-  List<String> timeSlots = List.generate(14, (index) {
+  List<String> timeSlots = List.generate(15, (index) {
     final startHour = 8 + index;
     final endHour = startHour + 1;
     return '$startHour-$endHour';
@@ -114,7 +112,7 @@ class SalonController extends GetxController {
     days.clear();
     for (int i = 0; i < 7; i++) {
       List<Map<String, dynamic>> list = [];
-      for (int j = 0; j < 14; j++) {
+      for (int j = 0; j < 15; j++) {
         list.add({'status': 'free', 'index': j});
       }
       days.add(list);
@@ -123,7 +121,7 @@ class SalonController extends GetxController {
     if (weekIndex == 0) {
       difference = now.difference(weekStart).inDays;
       for (int i = 0; i <= difference; i++) {
-        days[i].fillRange(0, 14, {'status': 'outdated', 'index': 0});
+        days[i].fillRange(0, 15, {'status': 'outdated', 'index': 0});
       }
     }
     if (isUpdate != null) {
@@ -151,7 +149,6 @@ class SalonController extends GetxController {
     }
     sum = selectedDays.length * salon!.rentCost!;
     update();
-    log(selectedDays.toString());
   }
 
   setItemOfDate(DateTime date, int daysIndex, String hour, String status) {
