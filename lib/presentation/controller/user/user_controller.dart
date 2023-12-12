@@ -8,6 +8,7 @@ import 'package:pelato_markazi/app/core/utils/common_methods.dart';
 import 'package:pelato_markazi/app/services/services.dart';
 import 'package:pelato_markazi/domain/use_cases/user/complete_profile_use_case.dart';
 import 'package:pelato_markazi/domain/use_cases/user/confirm_code_use_case.dart';
+import 'package:persian_number_utility/persian_number_utility.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher_string.dart';
 
@@ -61,8 +62,8 @@ class UserController extends GetxController {
 
   void checkConfirmCode(context) async {
     var response = await _confirmCodeUSeCase.execute(
-        confirmCode: confirmCodeController.text.trim(),
-        phone: phoneNumberController.text.trim());
+        confirmCode: confirmCodeController.text.trim().toEnglishDigit(),
+        phone: phoneNumberController.text.trim().toEnglishDigit());
     if (response.data == null) {
       CommonMethods.showToast(context, response.error!);
       return;
