@@ -91,6 +91,8 @@ class SalonController extends GetxController {
           if (order != null) {
             for (var item in order.salon!.reservedTimes!) {
               item.status = 'selected';
+              salon!.reservedTimes!.removeWhere((element) =>
+                  element.day == item.day && element.hours == item.hours);
               salon!.reservedTimes!.add(item);
             }
             salon!.reservedTimes!.sort((a, b) => a.day!.compareTo(b.day!));
