@@ -77,46 +77,47 @@ class SingleSalonScreen extends StatelessWidget {
                           }),
                         ],
                       ),
-                      SizedBox(
-                        height: 400,
-                        child: SingleChildScrollView(
-                          child: Row(
-                            children: [
-                              Column(
-                                children: controller.timeSlots.map((time) {
-                                  return SalonTableBox(
-                                    isHeader: true,
-                                    child: Center(
-                                        child: Text(time.toPersianDigit())),
-                                  );
-                                }).toList(),
-                              ),
-                              ...List.generate(controller.days.length, (index) {
-                                return Column(
-                                  children: controller.days[index].map((item) {
-                                    return SalonTableBox(
-                                      onTap: item['status'] == 'free' ||
-                                              item['status'] == 'selected'
-                                          ? () {
-                                              controller.onTimeTap(item, index);
-                                            }
-                                          : null,
-                                      status: item['status'],
-                                    );
-                                  }).toList(),
-                                );
-                              }),
-                            ],
+                      Row(
+                        children: [
+                          Column(
+                            children: controller.timeSlots.map((time) {
+                              return SalonTableBox(
+                                isHeader: true,
+                                child: Center(
+                                    child: Text(time.toPersianDigit())),
+                              );
+                            }).toList(),
                           ),
-                        ),
+                          ...List.generate(controller.days.length, (index) {
+                            return Column(
+                              children: controller.days[index].map((item) {
+                                return SalonTableBox(
+                                  onTap: item['status'] == 'free' ||
+                                          item['status'] == 'selected'
+                                      ? () {
+                                          controller.onTimeTap(item, index);
+                                        }
+                                      : null,
+                                  status: item['status'],
+                                );
+                              }).toList(),
+                            );
+                          }),
+                        ],
                       ),
                       const SizedBox(height: 10),
                       const Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           HelpLabelWidget(title: 'سفید: قابل رزرو'),
+                          SizedBox(width: 5),
                           HelpLabelWidget(title: 'زرد: در حال رزرو'),
+                          SizedBox(width: 5),
                           HelpLabelWidget(title: 'قرمز: تکمیل'),
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      const Row(
+                        children: [
                           HelpLabelWidget(title: 'سبز: انتخاب شما'),
                         ],
                       ),
